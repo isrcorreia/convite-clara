@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- META TAGS PARA PREVIEW NO WHATSAPP (OPEN GRAPH) -->
+    <title>Convite Especial da Clara - 5 Anos 🩰</title>
+    <meta name="description" content="Você recebeu um convite mágico para o aniversário de 5 anos da Clara! Toque para abrir.">
+    <meta property="og:title" content="Convite Especial da Clara - 5 Anos 🩰">
+    <meta property="og:description" content="Venha celebrar conosco este momento mágico! Toque para ver o convite completo.">
+    <meta property="og:image" content="https://files.manuscdn.com/user_upload_by_module/session_file/310419663028852830/XoAsFgXkMoKosYEW.png">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-pink: #fce4ec;
+            --accent-pink: #f06292;
+            --white: #ffffff;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+        body, html {
+            height: 100%;
+            width: 100%;
+            background-color: var(--primary-pink);
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* TELA DE ABERTURA */
+        #welcome-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, #fff0f5 0%, #fce4ec 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            text-align: center;
+        }
+
+        .ballet-box {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 45px rgba(240, 98, 146, 0.2);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 4px solid white;
+            background-image: url('https://www.transparenttextures.com/patterns/soft-wallpaper.png');
+        }
+
+        .ballet-icon { font-size: 80px; margin-bottom: 15px; }
+        .ribbon { position: absolute; top: -15px; font-size: 50px; }
+
+        .welcome-text {
+            margin-top: 30px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 28px;
+            color: var(--accent-pink);
+            padding: 0 20px;
+        }
+
+        .open-btn {
+            background-color: var(--accent-pink);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
+            box-shadow: 0 4px 15px rgba(240, 98, 146, 0.3);
+        }
+
+        /* CONTEÚDO DO CONVITE */
+        .main-container {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            display: none;
+        }
+
+        .invitation-card {
+            position: relative;
+            width: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            background: white;
+            border: 5px solid white;
+        }
+
+        .invitation-img { width: 100%; display: block; }
+
+        .btn-area { position: absolute; cursor: pointer; z-index: 10; }
+        .btn-maps { bottom: 4%; left: 18%; width: 30%; height: 7%; }
+        .btn-wa { bottom: 4%; left: 52%; width: 30%; height: 7%; }
+
+        /* FORMULÁRIO DE CONFIRMAÇÃO */
+        #confirmation-menu {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.4);
+            padding: 25px;
+            z-index: 100;
+            width: 90%;
+            max-width: 320px;
+            border: 2px solid var(--accent-pink);
+        }
+
+        .menu-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--accent-pink);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-input {
+            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 12px;
+            font-family: inherit;
+            font-size: 14px;
+            margin-bottom: 15px;
+            outline: none;
+        }
+
+        .option-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn-confirm { background-color: #25D366; }
+        .btn-decline { background-color: #ff5252; }
+
+        #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 90; background: rgba(0,0,0,0.5); }
+
+        #music-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1100;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div id="welcome-screen">
+        <div class="ballet-box" onclick="startExperience()">
+            <div class="ribbon">🎀</div>
+            <div class="ballet-icon">🩰</div>
+            <button class="open-btn">ABRIR CONVITE</button>
+        </div>
+        <div class="welcome-text">Convite Especial da Clara!</div>
+    </div>
+
+    <div id="overlay" onclick="closeMenu()"></div>
+    <audio id="bg-music" loop><source src="https://files.manuscdn.com/user_upload_by_module/session_file/310419663028852830/bNPlkHNOUeljbjdE.mp3" type="audio/mpeg"></audio>
+    <button id="music-control" onclick="toggleMusic()">🔊</button>
+
+    <div class="main-container" id="main-container">
+        <div class="invitation-card">
+            <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310419663028852830/XoAsFgXkMoKosYEW.png" alt="Convite da Clara" class="invitation-img">
+            <a href="https://www.google.com/maps/search/?api=1&query=Inspire+Brisas+Barueri" class="btn-area btn-maps" target="_blank"></a>
+            <div class="btn-area btn-wa" onclick="toggleMenu()"></div>
+            
+            <div id="confirmation-menu">
+                <div class="menu-title">Confirmar Presença</div>
+                <input type="text" id="guest-name" class="form-input" placeholder="Nome do Convidado">
+                <textarea id="custom-message" class="form-input" style="height: 60px;" placeholder="Mensagem (Opcional)"></textarea>
+                <button class="option-btn btn-confirm" onclick="sendWhatsApp(true)">✅ Vou Comparecer</button>
+                <button class="option-btn btn-decline" onclick="sendWhatsApp(false)">❌ Não poderei ir</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const audio = document.getElementById('bg-music');
+        const musicBtn = document.getElementById('music-control');
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const mainContainer = document.getElementById('main-container');
+
+        function startExperience() {
+            audio.play().catch(e => console.log("Erro de áudio"));
+            welcomeScreen.style.display = 'none';
+            mainContainer.style.display = 'flex';
+            musicBtn.style.display = 'flex';
+        }
+
+        function toggleMusic() {
+            if (audio.paused) { audio.play(); musicBtn.innerText = '🔊'; }
+            else { audio.pause(); musicBtn.innerText = '🔇'; }
+        }
+
+        function toggleMenu() {
+            document.getElementById('confirmation-menu').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        function closeMenu() {
+            document.getElementById('confirmation-menu').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        function sendWhatsApp(isAttending) {
+            const name = document.getElementById('guest-name').value;
+            const msg = document.getElementById('custom-message').value;
+            if (name.trim() === "") { alert("Por favor, digite seu nome."); return; }
+            const status = isAttending ? "CONFIRMAR minha presença" : "infelizmente NÃO PODEREI ir";
+            const emoji = isAttending ? "✅🎈" : "❌❤️";
+            let text = `*CONFIRMAÇÃO DE PRESENÇA*\n\n*Convidado:* ${name}\n*Resposta:* ${status} ${emoji}\n`;
+            if (msg.trim() !== "") text += `*Mensagem:* ${msg}`;
+            window.open(`https://wa.me/5521982669581?text=${encodeURIComponent(text)}`, '_blank');
+            closeMenu();
+        }
+    </script>
+</body>
+</html>
