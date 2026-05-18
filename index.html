@@ -126,42 +126,49 @@
             background: white;
             border-radius: 20px;
             box-shadow: 0 15px 50px rgba(0,0,0,0.4);
-            padding: 25px;
+            padding: 20px;
             z-index: 100;
             width: 90%;
             max-width: 320px;
             border: 2px solid var(--accent-pink);
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .menu-title {
             font-size: 18px;
             font-weight: 600;
             color: var(--accent-pink);
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-align: center;
         }
+
+        .form-group { margin-bottom: 10px; text-align: left; }
+        .form-label { font-size: 12px; font-weight: 600; color: #666; display: block; margin-bottom: 5px; }
 
         .form-input {
             width: 100%;
             border: 1px solid #ddd;
             border-radius: 10px;
-            padding: 12px;
+            padding: 10px;
             font-family: inherit;
             font-size: 14px;
-            margin-bottom: 15px;
             outline: none;
         }
+
+        .qty-group { display: flex; gap: 10px; margin-bottom: 10px; }
+        .qty-item { flex: 1; }
 
         .option-btn {
             display: block;
             width: 100%;
-            padding: 14px;
+            padding: 12px;
             border: none;
             border-radius: 10px;
             color: white;
             font-weight: 600;
             font-size: 14px;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             cursor: pointer;
             text-align: center;
         }
@@ -210,8 +217,28 @@
             
             <div id="confirmation-menu">
                 <div class="menu-title">Confirmar Presença</div>
-                <input type="text" id="guest-name" class="form-input" placeholder="Nome do Convidado">
-                <textarea id="custom-message" class="form-input" style="height: 60px;" placeholder="Mensagem (Opcional)"></textarea>
+                
+                <div class="form-group">
+                    <label class="form-label">Nome do Convidado</label>
+                    <input type="text" id="guest-name" class="form-input" placeholder="Nome Completo">
+                </div>
+
+                <div class="qty-group">
+                    <div class="qty-item">
+                        <label class="form-label">Adultos</label>
+                        <input type="number" id="adults-qty" class="form-input" value="1" min="0">
+                    </div>
+                    <div class="qty-item">
+                        <label class="form-label">Crianças</label>
+                        <input type="number" id="kids-qty" class="form-input" value="0" min="0">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Mensagem (Opcional)</label>
+                    <textarea id="custom-message" class="form-input" style="height: 50px;" placeholder="Recadinho..."></textarea>
+                </div>
+
                 <button class="option-btn btn-confirm" onclick="sendWhatsApp(true)">✅ Vou Comparecer</button>
                 <button class="option-btn btn-decline" onclick="sendWhatsApp(false)">❌ Não poderei ir</button>
             </div>
@@ -248,12 +275,23 @@
 
         function sendWhatsApp(isAttending) {
             const name = document.getElementById('guest-name').value;
+            const adults = document.getElementById('adults-qty').value;
+            const kids = document.getElementById('kids-qty').value;
             const msg = document.getElementById('custom-message').value;
+
             if (name.trim() === "") { alert("Por favor, digite seu nome."); return; }
+            
             const status = isAttending ? "CONFIRMAR minha presença" : "infelizmente NÃO PODEREI ir";
             const emoji = isAttending ? "✅🎈" : "❌❤️";
-            let text = `*CONFIRMAÇÃO DE PRESENÇA*\n\n*Convidado:* ${name}\n*Resposta:* ${status} ${emoji}\n`;
-            if (msg.trim() !== "") text += `*Mensagem:* ${msg}`;
+            
+            let text = `*CONFIRMAÇÃO DE PRESENÇA*\n\n`;
+            text += `*Convidado:* ${name}\n`;
+            text += `*Resposta:* ${status} ${emoji}\n`;
+            if (isAttending) {
+                text += `*Total:* ${adults} Adulto(s) e ${kids} Criança(s)\n`;
+            }
+            if (msg.trim() !== "") text += `\n*Mensagem:* ${msg}`;
+            
             window.open(`https://wa.me/5521982669581?text=${encodeURIComponent(text)}`, '_blank');
             closeMenu();
         }
